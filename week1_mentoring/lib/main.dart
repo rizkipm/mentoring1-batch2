@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:week1_mentoring/ui_page/Page2View.dart';
+import 'package:week1_mentoring/ui_page/Page3View.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,59 +37,97 @@ class MyApp extends StatelessWidget {
 //statefull
 // number 1, number 2,
 
-class PageHome extends StatelessWidget {
+class PageHome extends StatefulWidget {
+  @override
+  _PageHomeState createState() => _PageHomeState();
+}
+
+class _PageHomeState extends State<PageHome> {
+  TextEditingController nUsername = new TextEditingController();
+  TextEditingController nPassword = new TextEditingController();
+
+  String dataUsername , dataPassword;
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Apps'),
-        backgroundColor: Colors.green,
-      ),
+        appBar: AppBar(
+          title: Text('Apps'),
+          backgroundColor: Colors.green,
+        ),
 
-      body: Column(
-        children: <Widget>[
-          Container(
-            child: Text('Ini adalah Page Home'),
-          ),
-          SizedBox(height: 40,),
-          TextFormField(
-            decoration: InputDecoration(
-              hintText: 'Username'
+        body: Column(
+          children: <Widget>[
+            Container(
+              child: Text('Ini adalah Page Home'),
             ),
-          ),
-          TextFormField(
-            obscureText: true,
-            decoration: InputDecoration(
-                hintText: 'Password'
+            SizedBox(height: 40,),
+            TextFormField(
+              controller: nUsername,
+              decoration: InputDecoration(
+                  hintText: 'Username'
+              ),
             ),
-          ),
+            TextFormField(
+              controller: nPassword,
+              obscureText: true,
+              decoration: InputDecoration(
+                  hintText: 'Password'
+              ),
+            ),
 
-          SizedBox(height: 20,),
-          MaterialButton(
-            color: Colors.green,//properti
-            textColor: Colors.white, //propert
+            SizedBox(height: 20,),
+            MaterialButton(
+              color: Colors.green,//properti
+              textColor: Colors.white, //propert
 
-            onPressed: (){
+              onPressed: (){
 
-            },
-            child: Text('Submit'),
-          ),
+                //get data
+                setState(() {
+                  //setState : di dalam Ui
+                  //initStete : sebelum adanya
 
-          Container(
-            //padding : ngasih jarak widget
-            //sizebox : satu widget
-            //margin :
-            padding: EdgeInsets.all(10),
-            child: InkWell(
-              child: Text('Klik disini untuk lanjut', style: TextStyle(color: Colors.green),),
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> PageKedua()));
+                  //getData
+                  dataPassword = nPassword.text;
+                  dataUsername = nUsername.text;
+
+                  print("username" + dataUsername + "password : " + dataPassword );
+                  
+                  if((dataUsername == "admin")&& (dataPassword == "admin") ){
+                    //kondisi sama 
+                    
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> PageAfterLogin(
+                      nama: dataUsername,
+                      password: dataPassword,
+                    )));
+                  }else{
+                    //kondisi enggak sama
+                    print("password salah");
+                  }
+                });
+                //cek data
               },
+              child: Text('Submit'),
             ),
-          )
 
-        ],
-      )
+            Container(
+              //padding : ngasih jarak widget
+              //sizebox : satu widget
+              //margin :
+              padding: EdgeInsets.all(10),
+              child: InkWell(
+                child: Text('Klik disini untuk lanjut', style: TextStyle(color: Colors.green),),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> PageKedua()));
+                },
+              ),
+            )
+
+          ],
+        )
     );
   }
 }
